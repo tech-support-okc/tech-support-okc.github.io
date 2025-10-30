@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логины и пароли</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --content-bg: white;
+            --text-color: #333;
+            --header-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --button-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            --card-bg: white;
+            --card-border: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --content-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --header-gradient: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --button-gradient: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --button-hover: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            --card-bg: #3d3d3d;
+            --card-border: #555;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: var(--header-gradient);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .content {
+            background: var(--content-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: var(--button-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: var(--button-hover);
+        }
+
+        /* Стили для блоков */
+        .blocks-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .block-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .block-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .block-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--button-gradient);
+        }
+
+        .block-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .content-line {
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .content-line:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-color);
+        }
+
+        ul, li {
+            color: var(--text-color);
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 1024px) {
+            .blocks-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blocks-container {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Переключатель темы -->
+    <div class="theme-switcher">
+        <button class="theme-btn" id="themeToggle">🌙 Тёмная</button>
+    </div>
+
+    <!-- Навигация -->
+    <div class="navigation">
+        <a href="index.html" class="nav-button">📄 Главная страница</a>
+    </div>
+
+    <div class="header">
+        <h1>Логины \ Пароли</h1>
+    </div>
+    
+    <div class="content">
+        <!-- Блоки с информацией -->
+        <div class="blocks-container">
+            <!-- ЛЕВЫЙ СТОЛБЕЦ (1) - Стажёрки от биллинга -->
+            <div class="block-card">
+                <div class="block-header">🛠️ Стажёрка от биллинга 1</div>
+                <div class="block-content">
+                    <div class="content-line">test_stp</div>
+                    <div class="content-line">Teststp11</div>
+                </div>
+            </div>
+			<!-- ВТОРОЙ СТОЛБЕЦ 1 -->
+            <div class="block-card">
+                <div class="block-header">🔐 Стажёр удалёнка 1</div>
+                <div class="block-content">
+                    <div class="content-line">operator</div>
+                    <div class="content-line">K8Ve=k#</div>
+                </div>
+            </div>
+
+			<!-- ТРЕТИЙ СТОЛБЕЦ 1 -->
+			<div class="block-card">
+                <div class="block-header">☎️ Лог пасс от 1с телефонии</div>
+                <div class="block-content">
+                    <div class="content-line">Оператор</div>
+                    <div class="content-line">operator</div>
+                </div>
+            </div>
+            
+			<!-- ПЕРЫЙ СТОЛБЕЦ 2 -->
+			<div class="block-card">
+                <div class="block-header">🛠️ Стажёрка от биллинга 2</div>
+                <div class="block-content">
+                    <div class="content-line">test_stp2</div>
+                    <div class="content-line">Teststp22</div>
+                </div>
+            </div>
+            
+			<!-- ВТОРОЙ СТОЛБЕЦ 2 -->
+             <div class="block-card">
+                <div class="block-header">🔐 Стажёр удалёнка 2</div>
+                <div class="block-content">
+                    <div class="content-line">operator2</div>
+                    <div class="content-line">aK7(f4Dc</div>
+                </div>
+            </div>
+
+            <!-- ТРЕТИЙ СТОЛБЕЦ 2 -->
+            <div class="block-card">
+                <div class="block-header">👀 Лог Пасс от свича</div>
+                <div class="block-content">
+                    <div class="content-line">user</div>
+                    <div class="content-line">listtrb</div>
+                </div>
+            </div>
+			
+			<!-- ПЕРВЫЙ СТОЛБЕЦ 3 -->
+			<div class="block-card">
+                <div class="block-header">🛠️ Стажёрка от биллинга 3</div>
+                <div class="block-content">
+                    <div class="content-line">test_stp3</div>
+                    <div class="content-line">Teststp3</div>
+                </div>
+            </div>
+          
+			<!-- ВТОРОЙ СТОЛБЕЦ 3 -->
+            <div class="block-card">
+                <div class="block-header">🔐 Стажёр удалёнка 3</div>
+                <div class="block-content">
+                    <div class="content-line">operator3</div>
+                    <div class="content-line">La8B$1g</div>
+                </div>
+            </div>
+
+			<!-- ПРАВЫЙ СТОЛБЕЦ 3 -->
+			<div class="block-card">
+                <div class="block-header">🌵 Лог пасс от кактуса</div>
+                <div class="block-content">
+                    <div class="content-line">admin</div>
+                    <div class="content-line">1</div>
+                </div>
+            </div>
+       
+			<!-- ПЕРЫЙ СТОЛБЕЦ 4 -->	   
+			<div class="block-card">
+                <div class="block-header">🛠️ Стажёрка от биллинга 4</div>
+                <div class="block-content">
+                    <div class="content-line">TEST_STP4</div>
+                    <div class="content-line">Teststp44</div>
+                </div>
+            </div>
+			
+            
+            <!-- ВТОРОЙ СТОЛБЕЦ 4 -->
+            <div class="block-card">
+                <div class="block-header">🔐 Стажёр удалёнка 4</div>
+                <div class="block-content">
+                    <div class="content-line">operator4</div>
+                    <div class="content-line">F5K_rQ1</div>
+                </div>
+            </div>
+
+			<!-- ПРАВЫЙ СТОЛБЕЦ 4 -->
+            <div class="block-card">
+                <div class="block-header">🔑 Пасс от 1С</div>
+                <div class="block-content">
+                    <div class="content-line">логин: стажёрка 1-5</div>
+                    <div class="content-line">пароль: от 5-1 до 1-5</div>
+                </div>
+            </div>
+			
+			<!-- ПЕРВЫЙ СТОЛБЕЦ 5 -->
+			<div class="block-card">
+                <div class="block-header">🛠️ Стажёрка от биллинга 5</div>
+                <div class="block-content">
+                    <div class="content-line">TEST_STP5</div>
+                    <div class="content-line">Teststp55</div>
+                </div>
+            </div>
+			
+			 <!-- ВТОРОЙ СТОЛБЕЦ 5 -->
+             <div class="block-card">
+                <div class="block-header">🔐 Стажёр удалёнка 5</div>
+                <div class="block-content">
+                    <div class="content-line">operator5</div>
+                    <div class="content-line">I2VmU%</div>
+                </div>
+            </div>
+
+			 <!-- ПРАВЫЙ СТОЛБЕЦ 5 -->
+            <div class="block-card">
+                <div class="block-header">📞 Лог пасс от админки Умный ОКС</div>
+                <div class="block-content">
+                    <div class="content-line">ТП</div>
+                    <div class="content-line">dp48</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p><strong>Обновлено:</strong> <span id="current-date"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Управление темами
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+
+        // Устанавливаем начальную тему
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeButton();
+
+        // Обработчик переключения темы
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        });
+
+        // Обновление текста кнопки
+        function updateThemeButton() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            themeToggle.textContent = currentTheme === 'light' ? '🌙 Тёмная' : '☀️ Светлая';
+        }
+
+        // Обновление даты
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('ru-RU', options);
+        }
+
+        // Инициализация
+        updateCurrentDate();
+
+        // Добавляем интерактивность блокам
+        document.querySelectorAll('.block-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

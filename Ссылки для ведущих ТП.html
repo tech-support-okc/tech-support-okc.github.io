@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ссылки для ведущих ТП</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .theme-switch, .back-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-switch:hover, .back-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        h1 {
+            font-size: 24px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin: 15px 0 10px;
+            color: #e0e0e0;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme h2 {
+            color: #2c3e50;
+        }
+        
+        h3 {
+            font-size: 16px;
+            margin: 10px 0 5px;
+            color: #b0b0b0;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme h3 {
+            color: #34495e;
+        }
+        
+        .link-item {
+            background-color: #2d2d2d;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme .link-item {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .link-name {
+            flex-grow: 1;
+            cursor: pointer;
+            color: #3498db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .link-name:hover {
+            text-decoration: underline;
+        }
+        
+        .open-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .open-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .folder {
+            margin-left: 15px;
+        }
+        
+        .password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .password-form {
+            background-color: #2d2d2d;
+            padding: 30px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        body.light-theme .password-form {
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #444;
+            border-radius: 3px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme .password-input {
+            background-color: white;
+            color: #333;
+            border-color: #ddd;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 15px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="passwordScreen" class="password-screen">
+        <div class="password-form">
+            <h2>Введите пароль</h2>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Пароль">
+            <button id="submitPassword" class="submit-btn">Войти</button>
+            <div id="errorMessage" class="error-message hidden">Неверный пароль</div>
+        </div>
+    </div>
+
+    <div id="content" class="container hidden">
+        <header>
+            <h1>Ссылки для ведущих ТП</h1>
+            <div class="header-controls">
+                <button id="backBtn" class="back-btn">Назад</button>
+                <button id="themeSwitch" class="theme-switch">Светлая тема</button>
+            </div>
+        </header>
+        
+        <div class="folder">
+            <h2>Google DOC</h2>
+            <div class="folder">
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1wJ4GLDzZTVFVGEPAPTcse3ShdlNoML0iR7YESnDJUGg/edit?gid=1869924110#gid=1869924110">Ключи CC_byDZ - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1SJCv0zBk_pw70X2yzwzUW0d75a_Nkvl78F-00KxktDw/edit#gid=382245770">ИНЖЫ ГРАФ</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/11S1NI4uoKi5zRVOyrCDzhWRqNmHtzPD9waf5amEbQTY/edit#gid=1825430065">Список VLAN - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1uRCLOsvnPOCUNZYxZ-5VqZbT3MbJPK6Hrr0g__CgBD4/edit#gid=1682053373">База свичей - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1ZgXytRR6y0BHji4PyojNipd9F3z1O7y1mjWW_rkzaBE/edit#gid=835446094">Распределение подсетей - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1kuP3bIunU9YXEj5y3LxrjE5GORIN3JhxbqjDjOnwbCI/edit?pli=1#gid=1830506129">ИБП IP - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1F5a-XXEUv38FmV8bqfhk-OaHFuW5r8zQkTW71FGoW7c/edit#gid=960129887">База камер, домофонов, счетчиков - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1hfQEqrxwKdSkLb0oJbQNdeJ4_6Xg0oX7hVI6AEw5wbk/edit#gid=1035826351">База камер ЮР</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1CooFZjKoRhWyyvoLm9loxyRFF-Fc9M1T380HN4xLwGw/edit#gid=977283681">FVNO_МТС_VLANs - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1uwAsBTvHEY1Zz4sb2ercbgkgUS5wiaiKBhHNk_Peta4/edit?gid=1653916899#gid=1653916899">План строительства - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1kVs3gRAT3f2PygI-b3eWqdh_XLJuSPWY-GBNOcWLTTE/edit?gid=0#gid=0">Доступы на МУ - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1E1W5dv7mrERq5bYzGGWqj4XVbV9T08tf559KL23_UQQ/edit?pli=1&gid=1386834576#gid=1386834576">Задачи по домофонии - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1w_a5U9Niujy7Z4ZPQgO7vm_RS-SLp3Ocoat2NnDF06U/edit?pli=1&gid=0#gid=0">Модеры</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1fBYASe4ouTDSOHSzE-FsLaoGw5Tk-hqlkYqXxAwjI8E/edit#gid=881811797">ключи CC.xlsx - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1Ehav721sKu6qwkXnKWnNGgZzQMXySRkUCRr74vjaVPI/edit?gid=0#gid=0">Отзывы по новому приложению «Умный ОКС» - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1xIAw0faFeJ_iDkKUJW9ZYahSKqQgOMjhJOs5qEZ1k6w/edit?userstoinvite=antonovsib55@gmail.com&actionButton=1#gid=876106821">Журнал ОП</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/10CkXqJiVpfQIIdchJ5JcUnV9Rd7MYY58rYr2S0LDu1s/edit?hl=ru&gid=370349575#gid=370349575">Журнал обращений - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/12ODP5jA7caIQxn2MfJb1v1ZD60UZIIEI/edit?gid=278169544#gid=278169544">Отчет по повторным обращениям.xlsx - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1hNI2TfUR8eKuSj_Gcg3cKj-DYzEq9s287NuBlLtM3cU/edit?gid=1107616951#gid=1107616951">PON - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1eB3NVd0dfE3zfED96afw5jTC6qmHGt2XCgSpIxJnvjQ/edit#gid=0">MTC - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/10CkXqJiVpfQIIdchJ5JcUnV9Rd7MYY58rYr2S0LDu1s/edit?hl=ru#gid=0">Журнал обращений - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1RvEf8ZwoEH9QURsDtzTOzXJlXz9pXN55KMNthXTQ0FI/edit#gid=1234552967">Журнал обращений юр лиц и МТС - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1fslHYVlJ51IXi9KEtGlNZRnnqiJ-xxrX6HwZSmM-_C4/edit#gid=1600472436">Аварии в ночное время - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1r2a8bsWrGbQ_R_57eqkELoV1jmYn4wlKeUPw9I8LtO8/edit#gid=0">Обращения по приложению ОКС ТВ - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1NXoEW-xvULIj2uvDaICls_LLUgGuejBod105ySQtva8/edit#gid=0">Тарифы NAT</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/15GxpGzg0NISe2pCHReq4gTokZoWoVvhWgVplY4E2-Zg/edit#gid=1049769951">Расписание 2016-2021</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/14SzON-xeNirMhKFxQXLnNYK7-w0cl86o0Uwu406kMTg/edit#gid=0">Новые цены на роутеры</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/17p2_EIpMkYqkUaPKOVh9UK3ai0aB8zILTf0cK95G27I/edit#gid=792246541">Отпуска 2020-2024 - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1vdBwANsox4wRhmdv_caQclkzAKGQCeNHfEeLeAWvgfo/edit#gid=1224159021">Настройка оборудования</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="folder">
+            <h2>Умный ОКС</h2>
+            <div class="folder">
+                <div class="link-item">
+                    <span class="link-name" data-url="https://open.omkc.ru/">ОКС Умные домофоны админ панель</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1Ehav721sKu6qwkXnKWnNGgZzQMXySRkUCRr74vjaVPI/edit?gid=0#gid=0">Отзывы по новому приложению «Умный ОКС» - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/document/d/1dAjhp8YX_2vvRousqmjRVWGaJgdqNBEWUOL0KvtsYR0/edit?tab=t.0">Инструкция на НОВОЕ приложение «Умный ОКС» - Google Документы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="http://10.0.1.39/support/auth/login.php">AdminLTE 3 | Log in (v2)</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="folder">
+            <h2>МТС</h2>
+            <div class="folder">
+                <div class="link-item">
+                    <span class="link-name" data-url="https://ctxsibisso.ctx.mts.ru/Citrix/Store_Internet_FASWeb/">Citrix Workspace</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://nextcloud.mts.ru/apps/files/">Файлы - Nextcloud</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://fx.mts.ru/fix#/6-080-4054989">Inetcore - Mobile Assistant</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+            </div>
+        </div>
+       
+        
+        <div class="folder">
+            <h2>ОКС</h2>
+            <div class="folder">
+                <div class="link-item">
+                    <span class="link-name" data-url="file:///C:/Users/Dmitriy/Desktop/%D0%9C%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B3.htm">Monitoring</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/10CkXqJiVpfQIIdchJ5JcUnV9Rd7MYY58rYr2S0LDu1s/edit?hl=ru&gid=0#gid=0">Журнал обращений - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1CooFZjKoRhWyyvoLm9loxyRFF-Fc9M1T380HN4xLwGw/edit?pli=1&gid=277721018#gid=277721018">FVNO_МТС_Смартком_VLANs - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="file:///C:/Users/Dmitriy/Desktop/%D0%9C%D0%BE%D0%B9%20%D0%BC%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80%20(2).htm">Моник</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="http://syslog.omkc.ru/login.php?table=logs&excludeHost=1&host2=&host%5B%5D=gw&excludeHost=1&host%5B%5D=campus-yugo-zapadnaya-1k11&host%5B%5D=campus-krupskoi-5&host2=&host%5B%5D=dgs-kosmicheskiy-17A&excludeProgram=1&program2=&excludeFacility=1&excludePriority=1&date=&time=&date2=&time2=&limit=1000&topx=10&orderby=datetime&order=DESC&ExcludeMsg1=on&msg1=from+querier+address+&ExcludeMsg2=on&msg2=Snooping+Querier+received&ExcludeMsg3=on&msg3=One+or+more%252C+more+specific&ExcludeMsg4=on&msg4=IGMP+Packet&pageId=Tail&ExcludeMsg4=on&msg4=optic+module+RX&ExcludeMsg5=on&msg5=%25COPY-I-FILECPY:+Files+Copy&ExcludeMsg6=on&msg6=%25COPY-N-TRAP:+The+copy+operation&ExcludeMsg7=on&msg7=Configuration+successfully+uploaded+by+SNMP&ExcludeMsg8=on&msg8=FAN&ExcludeMsg9=on&msg9=One+or+more&ExcludeMsg10=on&msg10=1:18">Syslog</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://okstv.omkc.ru/channels/pervyj-kanal-hd">УТВ</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1xIAw0faFeJ_iDkKUJW9ZYahSKqQgOMjhJOs5qEZ1k6w/edit?userstoinvite=antonovsib55%40gmail.com&actionButton=1&gid=1309273036#gid=1309273036">Журнал установки и замены ОП - Google Таблицы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://tpoks.kaiten.ru/documents/d/fea7a55b-b746-4d8d-b5ce-5dec9bfdb764">Аварийные ситуации | Kaiten</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+                <div class="link-item">
+                    <span class="link-name" data-url="https://docs.google.com/spreadsheets/d/1tyv6wjQ47JImQITKOt1xtmkgU-S2p1AbdH7cayoOtzk/edit?gid=0#gid=0">Жалобы</span>
+                    <button class="open-btn">Открыть</button>
+                </div>
+            </div>
+        </div>
+        
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordScreen = document.getElementById('passwordScreen');
+            const content = document.getElementById('content');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitPassword = document.getElementById('submitPassword');
+            const errorMessage = document.getElementById('errorMessage');
+            const themeSwitch = document.getElementById('themeSwitch');
+            const backBtn = document.getElementById('backBtn');
+            const body = document.body;
+            
+            // Проверка пароля
+            submitPassword.addEventListener('click', function() {
+                if (passwordInput.value === '1337') {
+                    passwordScreen.style.display = 'none';
+                    content.classList.remove('hidden');
+                } else {
+                    errorMessage.classList.remove('hidden');
+                    passwordInput.value = '';
+                }
+            });
+            
+            // Нажатие Enter для ввода пароля
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitPassword.click();
+                }
+            });
+            
+            // Переключение темы
+            themeSwitch.addEventListener('click', function() {
+                if (body.classList.contains('dark-theme')) {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    themeSwitch.textContent = 'Тёмная тема';
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                    themeSwitch.textContent = 'Светлая тема';
+                }
+            });
+            
+            // Кнопка "Назад"
+            backBtn.addEventListener('click', function() {
+                window.history.back();
+            });
+            
+            // Обработка кликов по ссылкам и кнопкам
+            document.querySelectorAll('.link-name').forEach(link => {
+                link.addEventListener('click', function() {
+                    window.open(this.getAttribute('data-url'), '_blank');
+                });
+            });
+            
+            document.querySelectorAll('.open-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.parentElement.querySelector('.link-name').getAttribute('data-url');
+                    window.open(url, '_blank');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

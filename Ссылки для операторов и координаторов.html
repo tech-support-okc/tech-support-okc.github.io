@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ссылки для операторов / координаторов</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #f0f0f0;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+            --accent-color: #4a76a8;
+            --hover-color: #5a86b8;
+        }
+
+        .light-theme {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #fff;
+            --border-color: #ddd;
+            --accent-color: #4a76a8;
+            --hover-color: #5a86b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+        }
+
+        .theme-toggle {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .bookmark-category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bookmark-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .bookmark-item {
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .bookmark-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .bookmark-name {
+            flex-grow: 1;
+            font-size: 16px;
+        }
+
+        .open-link {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .password-form {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .password-form h2 {
+            margin-bottom: 20px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .bookmark-list {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран ввода пароля -->
+    <div class="password-screen" id="passwordScreen">
+        <div class="password-form">
+            <h2>Введите пароль</h2>
+            <input type="password" class="password-input" id="passwordInput" placeholder="Пароль">
+            <button onclick="checkPassword()">Войти</button>
+            <div class="error-message" id="errorMessage">Неверный пароль. Попробуйте снова.</div>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container" id="mainContent" style="display: none;">
+        <header>
+            <h1>Ссылки для операторов / координаторов</h1>
+            <div class="controls">
+                <button class="theme-toggle" id="themeToggle">Светлая тема</button>
+                <button onclick="goBack()">Назад</button>
+            </div>
+        </header>
+
+        <div class="bookmark-category">
+            <h2 class="category-title">Google DOC</h2>
+            <div class="bookmark-list">
+                <div class="bookmark-item">
+                    <span class="bookmark-name">База свичей - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1uRCLOsvnPOCUNZYxZ-5VqZbT3MbJPK6Hrr0g__CgBD4/edit#gid=1682053373')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">База камер, домофонов, счетчиков - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1F5a-XXEUv38FmV8bqfhk-OaHFuW5r8zQkTW71FGoW7c/edit#gid=960129887')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">База камер ЮР</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1hfQEqrxwKdSkLb0oJbQNdeJ4_6Xg0oX7hVI6AEw5wbk/edit#gid=1035826351')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">FVNO_МТС_VLANs - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1CooFZjKoRhWyyvoLm9loxyRFF-Fc9M1T380HN4xLwGw/edit#gid=977283681')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">План строительства - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1uwAsBTvHEY1Zz4sb2ercbgkgUS5wiaiKBhHNk_Peta4/edit?gid=1653916899#gid=1653916899')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Задачи по домофонии - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1E1W5dv7mrERq5bYzGGWqj4XVbV9T08tf559KL23_UQQ/edit?pli=1&gid=1386834576#gid=1386834576')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Модеры</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1w_a5U9Niujy7Z4ZPQgO7vm_RS-SLp3Ocoat2NnDF06U/edit?pli=1&gid=0#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ключи CC.xlsx - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1fBYASe4ouTDSOHSzE-FsLaoGw5Tk-hqlkYqXxAwjI8E/edit#gid=881811797')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Отзывы по новому приложению «Умный ОКС» - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1Ehav721sKu6qwkXnKWnNGgZzQMXySRkUCRr74vjaVPI/edit?gid=0#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Журнал ОП</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1xIAw0faFeJ_iDkKUJW9ZYahSKqQgOMjhJOs5qEZ1k6w/edit?userstoinvite=antonovsib55@gmail.com&actionButton=1#gid=876106821')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Журнал обращений - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/10CkXqJiVpfQIIdchJ5JcUnV9Rd7MYY58rYr2S0LDu1s/edit?hl=ru&gid=370349575#gid=370349575')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">PON - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1hNI2TfUR8eKuSj_Gcg3cKj-DYzEq9s287NuBlLtM3cU/edit?gid=1107616951#gid=1107616951')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">MTC - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1eB3NVd0dfE3zfED96afw5jTC6qmHGt2XCgSpIxJnvjQ/edit#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Журнал обращений - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/10CkXqJiVpfQIIdchJ5JcUnV9Rd7MYY58rYr2S0LDu1s/edit?hl=ru#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Журнал обращений юр лиц и МТС - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1RvEf8ZwoEH9QURsDtzTOzXJlXz9pXN55KMNthXTQ0FI/edit#gid=1234552967')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Тарифы NAT</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1NXoEW-xvULIj2uvDaICls_LLUgGuejBod105ySQtva8/edit#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Расписание 2016-2021</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/15GxpGzg0NISe2pCHReq4gTokZoWoVvhWgVplY4E2-Zg/edit#gid=1049769951')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Новые цены на роутеры</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1LSxyxaBBSTSVFk0W5RUp4gQaqvCi8ZkPWeuPCm1HwE8/edit?gid=0#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Отпуска 2020-2024 - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/17p2_EIpMkYqkUaPKOVh9UK3ai0aB8zILTf0cK95G27I/edit#gid=792246541')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Настройка оборудования</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1vdBwANsox4wRhmdv_caQclkzAKGQCeNHfEeLeAWvgfo/edit#gid=1224159021')">Открыть</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bookmark-category">
+            <h2 class="category-title">Системы и мониторинг</h2>
+            <div class="bookmark-list">
+                 <div class="bookmark-item">
+                    <span class="bookmark-name">Line</span>
+                    <button class="open-link" onclick="openLink('http://cc2.omkc.ru/cc-line24/rt-monitor/monitor.php?queue%5B%5D=200')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Новый биллинг</span>
+                    <button class="open-link" onclick="openLink('https://billing.omkc.ru/pcreasons2/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Старый биллинг</span>
+                    <button class="open-link" onclick="openLink('http://217.25.208.31/newtest/index.php')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Форум</span>
+                    <button class="open-link" onclick="openLink('http://db51.omkc.ru/forum/index.php?act=SF&f=11&st=0')">Открыть</button>
+                </div>
+                 <div class="bookmark-item">
+                    <span class="bookmark-name">sw_base</span>
+                    <button class="open-link" onclick="openLink('http://10.0.11.240/SwitchBase/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Звонки</span>
+                    <button class="open-link" onclick="openLink('http://217.25.208.32/cc-line24/admin.php/calls/in')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Cacti ДУ</span>
+                    <button class="open-link" onclick="openLink('http://217.25.208.51/cacti/nagios_fports.php?host_template_id=-1&host_status=-1&filter=maslo&host_rows=30&x=0&y=0&page=1')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Почта</span>
+                    <button class="open-link" onclick="openLink('http://rt.omkc.ru/otrs/index.pl?Action=AgentTicketQueue')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ImgBB</span>
+                    <button class="open-link" onclick="openLink('https://ru.imgbb.com/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Ключница</span>
+                    <button class="open-link" onclick="openLink('http://10.0.11.198/KeyChain/Search.php')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Imgur</span>
+                    <button class="open-link" onclick="openLink('https://imgur.com/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Ключница 2</span>
+                    <button class="open-link" onclick="openLink('http://10.0.11.198/KeyChain/index.php')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">СТИЛЭСС</span>
+                    <button class="open-link" onclick="openLink('http://10.0.1.39/support/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ОКС ТВ</span>
+                    <button class="open-link" onclick="openLink('https://okstv.omkc.ru/channels#auth')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Настройки роутеров</span>
+                    <button class="open-link" onclick="openLink('https://www.omkc.ru/abonentam/servis-i-podderzhka/nastroiki')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Прайс</span>
+                    <button class="open-link" onclick="openLink('https://www.omkc.ru/abonentam/dopolnitelnye-uslugi/tarify')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Проблемы с активацией</span>
+                    <button class="open-link" onclick="openLink('http://db51.omkc.ru/forum/index.php?showtopic=154065&st=15')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Nagios</span>
+                    <button class="open-link" onclick="openLink('http://nagios.omkc.ru/nagios4/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Контакты операторов тех поддержки и сервиса</span>
+                    <button class="open-link" onclick="openLink('http://db51.omkc.ru/forum/index.php?showtopic=3337')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">База коммутаторов</span>
+                    <button class="open-link" onclick="openLink('http://10.0.1.34/SwitchBase/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">МТС</span>
+                    <button class="open-link" onclick="openLink('https://nextcloud.mts.ru/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">МТС - Google Документы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/document/d/1VVGC3gbFYcsi_HTWpChAngz3W7s6gyjSEhnDdF_ZYNg/edit')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">МТС_OLD - Google Документы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/document/d/1KVzmJAenS-a-AC8uUYWeGUPRi9oEN7KLpX9ARDXow-0/edit')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Бесплатные иконки SVG, PNG, ICO или ICNS</span>
+                    <button class="open-link" onclick="openLink('https://icon-icons.com/ru/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ПРАЙС</span>
+                    <button class="open-link" onclick="openLink('https://www.omkc.ru/uploads/files/%D0%9F%D1%80%D0%B0%D0%B9%D1%81%20(1).pdf')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ДИВО - Настройка PPPoE в Windows 10</span>
+                    <button class="open-link" onclick="openLink('https://www.divo.ru/%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-pppoe-%D0%B2-windows-10/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Настройка PPPoE-соединения для Windows 7</span>
+                    <button class="open-link" onclick="openLink('https://avk-wellcom.ru/abonentam/instrukczii/nastrojka-pppoe-soedineniya-dlya-windows-7.html')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Настройка Windows 11</span>
+                    <button class="open-link" onclick="openLink('https://lanport.ru/support/os/windows-11/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">https://billing.omkc.ru/pcreasons/</span>
+                    <button class="open-link" onclick="openLink('https://billing.omkc.ru/pcreasons/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">База коммутаторов / Список VLAN'ов</span>
+                    <button class="open-link" onclick="openLink('http://10.0.1.34/SwitchBase/VlanList.php')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Моник</span>
+                    <button class="open-link" onclick="openLink('file:///C:/Users/ZINOVIEV2021/Desktop/%D0%9C%D0%BE%D0%B9%20%D0%BC%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80%20(2).htm')">Открыть</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bookmark-category">
+            <h2 class="category-title">Умный ОКС</h2>
+            <div class="bookmark-list">
+                <div class="bookmark-item">
+                    <span class="bookmark-name">ОКС Умные домофоны админ панель</span>
+                    <button class="open-link" onclick="openLink('https://open.omkc.ru/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Отзывы по новому приложению «Умный ОКС» - Google Таблицы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/spreadsheets/d/1Ehav721sKu6qwkXnKWnNGgZzQMXySRkUCRr74vjaVPI/edit?gid=0#gid=0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Инструкция на НОВОЕ приложение «Умный ОКС» - Google Документы</span>
+                    <button class="open-link" onclick="openLink('https://docs.google.com/document/d/1dAjhp8YX_2vvRousqmjRVWGaJgdqNBEWUOL0KvtsYR0/edit?tab=t.0')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">AdminLTE 3 | Log in (v2)</span>
+                    <button class="open-link" onclick="openLink('http://10.0.1.39/support/auth/login.php')">Открыть</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bookmark-category">
+            <h2 class="category-title">МТС</h2>
+            <div class="bookmark-list">
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Citrix Workspace</span>
+                    <button class="open-link" onclick="openLink('https://ctxsibisso.ctx.mts.ru/Citrix/Store_Internet_FASWeb/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Файлы - Nextcloud</span>
+                    <button class="open-link" onclick="openLink('https://nextcloud.mts.ru/apps/files/')">Открыть</button>
+                </div>
+                <div class="bookmark-item">
+                    <span class="bookmark-name">Inetcore - Mobile Assistant</span>
+                    <button class="open-link" onclick="openLink('https://fx.mts.ru/fix#/6-080-4054989')">Открыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Проверка пароля
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (password === '0000') {
+                document.getElementById('passwordScreen').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        // Открытие ссылки
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                themeToggle.textContent = 'Тёмная тема';
+            } else {
+                themeToggle.textContent = 'Светлая тема';
+            }
+        });
+
+        // Кнопка "Назад"
+        function goBack() {
+            window.history.back();
+        }
+
+        // Обработка нажатия Enter в поле пароля
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
